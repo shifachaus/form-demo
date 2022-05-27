@@ -24,7 +24,7 @@ body {
   /* width: 500px; */
   justify-content: center;
   align-items: center;
-  padding: 5em;
+  padding: 2em;
   border-radius: 12px;
 }
 
@@ -80,6 +80,14 @@ input:focus {
   color: rgb(249, 9, 9);
   font-weight: 500;
   margin-bottom: 0.8em;
+}
+
+.image{
+  display: flex;
+  flex-direction: column;
+  /* width: 500px; */
+  justify-content: center;
+  align-items: center;
 }
 
 /* .App-logo {

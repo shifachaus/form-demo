@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState } from "react";
+import ProfileImage from "./Post/ProfileImage";
 
 function App() {
   const [name, setName] = useState("");
@@ -8,46 +9,27 @@ function App() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [isCode, setIsCode] = useState(0);
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
+
+  const[profile_image, setProfileImage] = useState(null)
+
 
   function handleSubmit() {
-    if (!name) {
-      alert("Please fill the form");
-      return;
-    }
-
-    // if (name.length < 4) {
-    //   errors.name = "name must be 4 character long ";
-    // }
-
-    // if (!designation) {
-    //   errors.designation = "Designation field is required";
-    // }
-
-    // if (mobile.length < 10) {
-    //   errors.mobile = "Mobile number must be 10 digit long";
-    // }
-
-    // if (
-    //   !email.match(
-    //     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    //   )
-    // ) {
-    //   errors.email = "Invalid email id";
-    // }
-
-    setErrors({ name, mobile, designation, email });
-
-    console.log(errors);
-
-    const data = { name, mobile, designation, email };
-    console.log(data);
-
+    // const formData = new FormData();
+    // formData.append('name', name);
+    // formData.append('mobile', mobile);
+    // formData.append('designation' ,designation);
+    // formData.append('email', email);
+    // formData.append('profile_image', profile_image);
+    const data = { name, mobile, designation, email, profile_image };
+    // console.log(profileImage);
+  //  console.log(data);
     setLoading(!loading);
     fetch("https://interns-new.herokuapp.com/list", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        // 'Content-Type': 'multipart/form-data'
       },
       body: JSON.stringify(data),
     })
@@ -58,6 +40,8 @@ function App() {
         console.log(data);
       });
   }
+
+
 
   function handleReset() {
     setName("");
@@ -72,11 +56,14 @@ function App() {
     setEmail("");
     setDesignation("");
     setMobile("");
+  
   }
 
   return (
     <div className="App">
       <div className="form">
+        <ProfileImage setProfileImage={setProfileImage} />
+        
         <input
           type="text"
           id="name"
@@ -122,11 +109,12 @@ function App() {
           Reset
         </button>
       </div>
-      {loading && <p className="waiting">Please wait...</p>}
 
-      {isCode === 1 && <p>you have Successfully registered!</p> &&
-        resetFields()}
-      {/* {isCode === 1 && handleReset()} */}
+      {/* {loading && <p className="waiting">Please wait...</p>}
+
+      {isCode === 1 && <p>you have Successfully registered!</p> && */}
+        {/* resetFields()} */}
+      {/* {isCode === 1 && resetFields()} */}
     </div>
   );
 }
