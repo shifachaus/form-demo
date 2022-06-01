@@ -22,8 +22,8 @@ const ProfileImage = ({setProfileImage,}) => {
             
             reader.readAsDataURL(file)
 
-            setProfileImage(file.name)
-            // console.log(file.name);
+            setProfileImage(file)
+            console.log(file);
         }
     }
 

@@ -1,8 +1,11 @@
 import "./App.css";
 import { useState } from "react";
 import ProfileImage from "./Post/ProfileImage";
+import axios from "axios";
 
 function App() {
+
+
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
   const [designation, setDesignation] = useState("");
@@ -11,34 +14,49 @@ function App() {
   const [isCode, setIsCode] = useState(0);
   // const [errors, setErrors] = useState({});
 
-  const[profile_image, setProfileImage] = useState(null)
+  const [profile_image, setProfileImage] = useState(null)
 
 
-  function handleSubmit() {
-    // const formData = new FormData();
-    // formData.append('name', name);
-    // formData.append('mobile', mobile);
-    // formData.append('designation' ,designation);
-    // formData.append('email', email);
-    // formData.append('profile_image', profile_image);
-    const data = { name, mobile, designation, email, profile_image };
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append('name', name);
+    formData.append('mobile', mobile);
+    formData.append('designation', designation);
+    formData.append('email', email);
+    formData.append('profile_image', profile_image);
+
+    console.log(Object.fromEntries(formData));
+
+    // const data = { name, mobile, designation, email, profile_image };
+    // console.log(data);
+
+    // formData.append("data", data)
     // console.log(profileImage);
-  //  console.log(data);
+    //  console.log(data);
     setLoading(!loading);
-    fetch("https://interns-new.herokuapp.com/list", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // 'Content-Type': 'multipart/form-data'
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLoading(loading);
-        setIsCode(data.code);
-        console.log(data);
-      });
+    // fetch("https://interns-new.herokuapp.com/list", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     // 'Content-Type': 'multipart/form-data'
+
+    //   },
+    //   // body: JSON.stringify(data)
+    //   body: formData
+
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setLoading(loading);
+    //     setIsCode(data.code);
+    //     console.log(data);
+    //   });
+
+    axios.post("https://interns-new.herokuapp.com/list", formData)
+    .then((value) => console.log(value))
   }
 
 
@@ -56,14 +74,14 @@ function App() {
     setEmail("");
     setDesignation("");
     setMobile("");
-  
+
   }
 
   return (
     <div className="App">
-      <div className="form">
+      <form className="form" onSubmit={handleSubmit} encType="multipart/form-data" >
         <ProfileImage setProfileImage={setProfileImage} />
-        
+
         <input
           type="text"
           id="name"
@@ -102,18 +120,18 @@ function App() {
         {!email.match(
           /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         ) && <p className="error">Invalid email id</p>}
-        <button className="btn submit" onClick={handleSubmit}>
+        <button className="btn submit" >
           submit
         </button>
         <button className="btn reset" onClick={handleReset}>
           Reset
         </button>
-      </div>
+      </form>
 
       {/* {loading && <p className="waiting">Please wait...</p>}
 
       {isCode === 1 && <p>you have Successfully registered!</p> && */}
-        {/* resetFields()} */}
+      {/* resetFields()} */}
       {/* {isCode === 1 && resetFields()} */}
     </div>
   );
